@@ -1,20 +1,28 @@
 import json
 import youtube_dl
-import requests
-import os
-
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import requests
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 
-sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id="b523045ad2864a499929f5f271e8ab44",
-                                                           client_secret="b6b26357a43a483ab3ecc67bff25ee88"))
-# https://open.spotify.com/playlist/3WOcIUMI1fRw6f1ONlro2n?si=9dd37a52e9e14a61
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+CLIENT_ID = os.environ.get("CLIENT_ID")
+CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=CLIENT_ID,
+                                                           client_secret=CLIENT_SECRET))
+
 # Spotify
-playlist_id = 'spotify:playlist:3WOcIUMI1fRw6f1ONlro2n'
+playlist_URL = input("Spotify Playlist URL: ")
+playlist_id = 'spotify:playlist:{ID}'.format(ID=playlist_URL.rsplit('/', 1)[1])
 results = sp.playlist(playlist_id)
+
 # Playlist directory
-playlist_dir = os.path.dirname(os.path.realpath(__file__)) + "/" + results['name']
-# playlist_dir = '/media/raminduw/Entertainment' + results['name']
+playlist_dir = dirname(os.path.realpath(__file__)) + "/" + results['name']
 if not os.path.exists(playlist_dir):
     os.makedirs(playlist_dir)
 
@@ -50,6 +58,3 @@ for idx, item in enumerate(results['items']):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download(['https://www.youtube.com/watch?v=' + videoId])
 
-# results = sp.search(q='Somebody to Love', limit=20)
-# for idx, track in enumerate(results['tracks']['items']):
-#     print(idx, track['name'])
