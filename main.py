@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-SP_CLIENT_ID = os.environ.get("CLIENT_ID")
-SP_CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+SP_CLIENT_ID = os.environ.get("SP_CLIENT_ID")
+SP_CLIENT_SECRET = os.environ.get("SP_CLIENT_SECRET")
 YT_KEY = os.environ.get("YT_KEY")
 
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=SP_CLIENT_ID,
