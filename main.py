@@ -10,11 +10,12 @@ from dotenv import load_dotenv
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-CLIENT_ID = os.environ.get("CLIENT_ID")
-CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+SP_CLIENT_ID = os.environ.get("CLIENT_ID")
+SP_CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+YT_KEY = os.environ.get("YT_KEY")
 
-sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=CLIENT_ID,
-                                                           client_secret=CLIENT_SECRET))
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=SP_CLIENT_ID,
+                                                           client_secret=SP_CLIENT_SECRET))
 
 # Spotify
 playlist_URL = input("Spotify Playlist URL: ")
@@ -39,7 +40,7 @@ ydl_opts = {
 
 # YT API
 URL = "https://youtube.googleapis.com/youtube/v3/search"
-params = {'key': 'AIzaSyDPVRYosEjLyNN7VOuBW9Cihnh8ztoq5rk',
+params = {'key': YT_KEY,
           'part': 'snippet',
           'maxResults': 1,
           'q': 'song'}
